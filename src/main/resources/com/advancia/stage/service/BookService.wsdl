@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                   xmlns:tns="http://www.example.org/BookService/"
+                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                   xmlns:book="http://benchresources.in/entity/Book"
+                   name="BookService"
+                   targetNamespace="http://www.example.org/BookService/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://benchresources.in/service/BookService/">
+      <xsd:import namespace="http://benchresources.in/entity/Book"
+                  schemaLocation="../entity/book.xsd" />
+    </xsd:schema>
+  </wsdl:types>
+  
+  
+  <wsdl:message name="BookRequest">
+    <wsdl:part element="book:BookRequestType" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="BookResponse">
+    <wsdl:part element="book:BookResponseType" name="parameters"/>
+  </wsdl:message>
+  
+  
+   <wsdl:portType name="IBookService">
+        <wsdl:operation name="getBookByISDNRequestNumber">
+            <wsdl:input message="tns:BookRequest" />
+            <wsdl:output message="tns:BookResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    
+  <wsdl:binding name="BookServiceSOAP" type="tns:IBookService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getBookByISDNRequestNumber">
+      <soap:operation soapAction="/"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  
+  <wsdl:service name="BookService">
+    <wsdl:port binding="tns:BookServiceSOAP" name="BookServicePort" >
+      <soap:address location="http://localhost:8080/SOAP-topDown/service/BookService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
